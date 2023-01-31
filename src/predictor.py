@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sb
+from sklearn.metrics import ConfusionMatrixDisplay, confusion_matrix
 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
@@ -91,5 +92,19 @@ features = scaler.fit_transform(features)
 X_train, X_valid, Y_train, Y_valid = train_test_split(
     features, target, test_size=0.1, random_state=2022)
 # print(X_train.shape, X_valid.shape)
+
+
+# models = [LogisticRegression(), SVC(
+#     kernel='poly', probability=True), XGBClassifier()]
+
+# for i in range(3):
+#     models[i].fit(X_train, Y_train)
+#
+#     print(f'{models[i]} : ')
+#     print('Training Accuracy : ', metrics.roc_auc_score(
+#         Y_train, models[i].predict_proba(X_train)[:, 1]))
+#     print('Validation Accuracy : ', metrics.roc_auc_score(
+#         Y_valid, models[i].predict_proba(X_valid)[:, 1]))
+#     print()
 
 
