@@ -107,4 +107,9 @@ X_train, X_valid, Y_train, Y_valid = train_test_split(
 #         Y_valid, models[i].predict_proba(X_valid)[:, 1]))
 #     print()
 
-
+# models[0].fit(X_train, Y_train)
+# predictions = models[0].predict(X_valid)
+# cm = confusion_matrix(Y_valid, predictions, labels=models[0].classes_)
+# disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=models[0].classes_)
+# disp.plot()
+# plt.show()
