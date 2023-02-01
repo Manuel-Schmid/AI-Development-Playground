@@ -27,8 +27,9 @@ pd.options.display.max_rows = None
 
 # plt.figure(figsize=(15, 5))
 # plt.plot(df['Close'])
-# plt.title('TSLA Close price.', fontsize=15)
-# plt.ylabel('Price in dollars.')
+# plt.title('Close price', fontsize=15)
+# plt.ylabel('Price in dollars')
+# plt.xlabel('Time')
 # plt.show()
 
 # print(df[df['Close'] == df['Adj Close']].shape) # check if all values in this column are equal -> column is redundant
@@ -83,14 +84,14 @@ df['target'] = np.where(df['Close'].shift(-1) > df['Close'], 1, 0)
 # sb.heatmap(df.corr(numeric_only=True) > 0.9, annot=True, cbar=False)
 # plt.show()
 
-features = df[['open-close', 'low-high', 'is_quarter_end']]
-target = df['target']
-
-scaler = StandardScaler()
-features = scaler.fit_transform(features)
-
-X_train, X_valid, Y_train, Y_valid = train_test_split(
-    features, target, test_size=0.1, random_state=2022)
+# features = df[['open-close', 'low-high', 'is_quarter_end']]
+# target = df['target']
+#
+# scaler = StandardScaler()
+# features = scaler.fit_transform(features)
+#
+# X_train, X_valid, Y_train, Y_valid = train_test_split(
+#     features, target, test_size=0.1, random_state=2022)
 # print(X_train.shape, X_valid.shape)
 
 
