@@ -27,6 +27,11 @@ pd.options.display.max_rows = None
 
 # plt.figure(figsize=(15, 5))
 # plt.plot(df['Close'])
+# plt.plot(df['Open'])
+# plt.plot(df['High'])
+# plt.plot(df['Low'])
+# plt.plot(df['Close'] - df['Open'])
+# plt.plot(df['High'] - df['Low'])
 # plt.title('Close price', fontsize=15)
 # plt.ylabel('Price in dollars')
 # plt.xlabel('Time')
@@ -36,11 +41,12 @@ pd.options.display.max_rows = None
 df = df.drop(['Adj Close'], axis=1)  # drop redundant column
 # print(df.isnull().sum())  # check for null values
 
-# features = ['Open', 'High', 'Low', 'Close', 'Volume']
-# plt.subplots(figsize=(20, 10))
+# features = ['Open', 'High', 'Low', 'Close']
+# plt.subplots(figsize=(25, 10))
+# plt.clf()
 # for i, col in enumerate(features):
-#     plt.subplot(2, 3, i + 1)
-#     sb.distplot(df[col])
+#     plt.subplot(2, 2, i + 1)
+#     plt.plot(df[col])
 # plt.show()
 
 # features = ['Open', 'High', 'Low', 'Close', 'Volume']
