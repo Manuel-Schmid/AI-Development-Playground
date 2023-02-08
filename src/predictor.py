@@ -82,11 +82,11 @@ df['low-high'] = df['Low'] - df['High']
 df['target'] = np.where(df['Close'].shift(-1) > df['Close'], 1, 0)
 # print(df.head(60))
 
-plt.pie(df['target'].value_counts().values,  # is target balanced?
-        labels=[0, 1], autopct='%1.1f%%')
-plt.plot(df['target'])
-plt.show()
-plt.figure(figsize=(10, 10))
+# plt.pie(df['target'].value_counts().values,  # is target balanced?
+#         labels=[0, 1], autopct='%1.1f%%')
+# plt.plot(df['target'])
+# plt.show()
+# plt.figure(figsize=(10, 10))
 
 
 # visualize heatmap of highly correlated features only.
