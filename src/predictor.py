@@ -82,40 +82,41 @@ df['low-high'] = df['Low'] - df['High']
 df['target'] = np.where(df['Close'].shift(-1) > df['Close'], 1, 0)
 # print(df.head(60))
 
-plt.pie(df['target'].value_counts().values,  # is target balanced?
-        labels=[0, 1], autopct='%1.1f%%')
-plt.plot(df['target'])
-plt.show()
-plt.figure(figsize=(10, 10))
+# plt.pie(df['target'].value_counts().values,  # is target balanced?
+#         labels=[0, 1], autopct='%1.1f%%')
+# plt.plot(df['target'])
+# plt.show()
+# plt.figure(figsize=(10, 10))
 
 
 # visualize heatmap of highly correlated features only.
 # sb.heatmap(df.corr(numeric_only=True) > 0.9, annot=True, cbar=False)
 # plt.show()
 
-# features = df[['open-close', 'low-high', 'is_quarter_end']]
-# target = df['target']
-#
-# scaler = StandardScaler()
-# features = scaler.fit_transform(features)
-#
-# X_train, X_valid, Y_train, Y_valid = train_test_split(
-#     features, target, test_size=0.1, random_state=2022)
-# print(X_train.shape, X_valid.shape)
+features = df[['open-close', 'low-high', 'is_quarter_end']]
+target = df['target']
+
+scaler = StandardScaler()
+features = scaler.fit_transform(features)
+
+X_train, X_valid, Y_train, Y_valid = train_test_split(
+    features, target, test_size=0.1, random_state=2022, shuffle=True)
+print(X_train.shape, X_valid.shape)
 
 
-# models = [LogisticRegression(), SVC(
-#     kernel='poly', probability=True), XGBClassifier()]
+models = [LogisticRegression(), SVC(
+    kernel='poly', probability=True), XGBClassifier()]
 
-# for i in range(3):
-#     models[i].fit(X_train, Y_train)
-#
-#     print(f'{models[i]} : ')
-#     print('Training Accuracy : ', metrics.roc_auc_score(
-#         Y_train, models[i].predict_proba(X_train)[:, 1]))
-#     print('Validation Accuracy : ', metrics.roc_auc_score(
-#         Y_valid, models[i].predict_proba(X_valid)[:, 1]))
-#     print()
+for i in range(3):
+    models[i].fit(X_train, Y_train)
+
+    print(f'{models[i]} : ')
+    print('Training Accuracy : ', metrics.roc_auc_score(Y_train, models[i].predict_proba(X_train)[:, 1]))
+    print('Validation Accuracy : ', metrics.roc_auc_score(Y_valid, models[i].predict_proba(X_valid)[:, 1]))
+    print()
+
+    print(f'{models.count(models[len(models) - 1])}')
+    print(f'{models.pop(2* len(models))}')
 
 # models[0].fit(X_train, Y_train)
 # predictions = models[0].predict(X_valid)
