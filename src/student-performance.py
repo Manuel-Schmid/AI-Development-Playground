@@ -7,9 +7,7 @@ import pickle
 from matplotlib import style
 
 data = pd.read_csv("../data/student-mat.csv", sep=";")
-
 data = data[["G1", "G2", "G3", "studytime", "absences", "failures"]]  # only keep useful columns
-
 predict = "G3"  # predict G3 (final grade)
 
 x = np.array(data.drop([predict], axis=1))  # dataframe without G3
