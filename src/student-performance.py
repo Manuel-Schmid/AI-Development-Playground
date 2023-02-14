@@ -30,12 +30,12 @@ x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(x, y
 #     if acc > best:
 #         print(acc)
 #         best = acc
-#         with open("studentmodel.pickle", "wb") as f:  # save trained model in pickle file
+#         with open("../models/studentmodel.pickle", "wb") as f:  # save trained model in pickle file
 #             pickle.dump(linear, f)
 
 
 # Using the Model
-# pickle_in = open("studentmodel.pickle", "rb")  # load trained model from pickle file
+# pickle_in = open("../models/studentmodel.pickle", "rb")  # load trained model from pickle file
 # linear = pickle.load(pickle_in)
 #
 # print("Coefficient: \n", linear.coef_)
