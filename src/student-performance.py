@@ -12,7 +12,7 @@ data = data[["G1", "G2", "G3", "studytime", "absences", "failures"]]  # only kee
 
 predict = "G3"  # predict G3 (final grade)
 
-x = np.array(data.drop([predict], 1))  # dataframe without G3
+x = np.array(data.drop([predict], axis=1))  # dataframe without G3
 y = np.array(data[predict])  # dataframe with only G3 values
 x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(x, y, test_size=0.1)
 
@@ -44,7 +44,7 @@ x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(x, y
 # predictions = linear.predict(x_test)
 #
 # for x in range(len(predictions)):
-#     print(predictions[x], x_test[x], y_test[x])  # print predicted grades, used input values and actual final grades
+#     print(x_test[x], round(predictions[x]), y_test[x])  # print input values, predicted grades and actual final grades
 
 
 # p = "G1"  # x axis values, change this to analyse correlations
