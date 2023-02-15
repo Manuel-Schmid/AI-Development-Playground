@@ -1,10 +1,10 @@
 import pandas as pd
 import numpy as np
 import sklearn
-from sklearn import linear_model
-import matplotlib.pyplot as pyplot
-import pickle
-from matplotlib import style
+# from sklearn import linear_model
+# import matplotlib.pyplot as pyplot
+# import pickle
+# from matplotlib import style>
 
 data = pd.read_csv("../data/student-mat.csv", sep=";")
 data = data[data.G3 != 0]
