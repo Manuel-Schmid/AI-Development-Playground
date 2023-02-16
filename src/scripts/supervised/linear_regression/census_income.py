@@ -7,7 +7,7 @@ import pickle
 from matplotlib import style
 
 
-data = pd.read_csv("../../data/census_income.csv", sep=",")
+data = pd.read_csv("../../../data/census_income.csv", sep=",")
 data = data[["age", "education-num", "hours-per-week", "income-over-50k"]]  # only keep useful columns
 # data[""] = data[""].map({'no': 0, 'yes': 1})  # remap values to integers
 predict = "income-over-50k"  # predict income

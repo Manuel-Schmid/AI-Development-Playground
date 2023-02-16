@@ -17,7 +17,7 @@ from sklearn import metrics
 # warnings.filterwarnings('ignore')
 
 
-df = pd.read_csv('../../data/TSLA.csv')
+df = pd.read_csv('../../../data/TSLA.csv')
 
 pd.options.display.max_columns = None
 pd.options.display.max_rows = None

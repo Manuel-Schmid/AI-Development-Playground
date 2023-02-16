@@ -17,8 +17,8 @@ x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(x, y
 
 
 # Model Training
-# clf_model = svm.SVC(kernel="linear", C=4)  # create Support Vector classifier model
-clf_model = KNeighborsClassifier(8)  # create KNN classifier model
+clf_model = svm.SVC(kernel="linear", C=4)  # create Support Vector classifier model, C = soft margin
+# clf_model = KNeighborsClassifier(8)  # create KNN classifier model
 
 clf_model.fit(x_train, y_train)  # train model
 
