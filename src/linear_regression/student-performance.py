@@ -8,7 +8,7 @@ import pickle
 from matplotlib import style>
 """
 
-data = pd.read_csv("../data/student-mat.csv", sep=";")
+data = pd.read_csv("../../data/student-mat.csv", sep=";")
 data = data[data.G3 != 0]
 data = data[["G1", "G2", "G3", "studytime", "absences", "failures"]]  # only keep useful columns
 # data[""] = data[""].map({'no': 0, 'yes': 1})  # remap values to integers

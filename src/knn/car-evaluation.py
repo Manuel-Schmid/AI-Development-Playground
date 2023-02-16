@@ -7,7 +7,7 @@ from sklearn import linear_model, preprocessing
 
 
 # Data Preparation
-data = pd.read_csv("../data/car-evaluation.data")
+data = pd.read_csv("../../data/car-evaluation.data")
 
 le = preprocessing.LabelEncoder()
 buying = le.fit_transform(list(data["buying"]))  # transforms non-numeric col. values into numpy array of numeric values
