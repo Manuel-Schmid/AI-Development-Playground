@@ -17,4 +17,11 @@ word_index["<START>"] = 1
 word_index["<UNK>"] = 2
 word_index["<UNUSED>"] = 3
 
+reverse_word_index = dict([(value, key) for (key, value) in word_index.items()])  # swap values & keys
 
+
+def decode_review(text):  # decode integer array to human-readable text
+    return " ".join([reverse_word_index.get(i, "?") for i in text])
+
+
+print(decode_review(test_data[76]))
