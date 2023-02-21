@@ -23,15 +23,17 @@ model.compile(optimizer="adam", loss="sparse_categorical_crossentropy", metrics=
 
 model.fit(train_images, train_labels, epochs=5)  # epochs = how many times the same image comes up
 
-test_loss, test_acc = model.evaluate(test_images, test_labels)
+prediction = model.predict(test_images)
 
-print("Tested Acc: ", test_acc)
+# for i in range(10):  # show images with actual and predicted label
+#     plt.grid(False)
+#     plt.imshow(test_images[i], cmap=plt.cm.binary)
+#     plt.xlabel("Actual: " + class_names[test_labels[i]])
+#     plt.title("Prediction: " + class_names[np.argmax(prediction[i])])
+#     plt.show()
 
+# test_loss, test_acc = model.evaluate(test_images, test_labels)
+# print("Tested Acc: ", test_acc)
 
 # plt.imshow(train_images[7], cmap=plt.cm.binary)  # print an image in b & w
 # plt.show()
-
-# print(class_names[train_labels[6]])
-
-
-
