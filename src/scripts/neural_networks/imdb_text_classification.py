@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 data = keras.datasets.imdb  # fetch IMDB movie-review dataset
 
-(train_data, train_labels), (test_data, test_labels) = data.load_data(num_words=10000)  # only take 10'000 most frequent words
+(train_data, train_labels), (test_data, test_labels) = data.load_data(num_words=10000)  # only 10'000 most frequent words
 
 word_index = data.get_word_index()  # gets words w. indices
 
@@ -29,9 +29,44 @@ def decode_review(text):  # decode integer array to human-readable text
 
 # print(decode_review(test_data[76]))
 
+
 # setup neural network model with layers
 model = keras.Sequential()
 model.add(keras.layers.Embedding(10000, 16))  # turns word-indices into word-vectors with 16 coefficients (array)
 model.add(keras.layers.GlobalAvgPool1D())  # averages vectors out (shrinks their data)
 model.add(keras.layers.Dense(16, activation="relu"))  # 16 neurons
 model.add(keras.layers.Dense(1, activation="sigmoid"))  # produces single value as result of neuron connections
+
+model.summary()
+
+model.compile(optimizer="adam",
+              loss="binary_crossentropy",  # loss func will calc difference between sigmoid values
+              metrics=["accuracy"]
+              )
+
+x_val = train_data[:10000]  # cut 10'000 values for training
+x_train = train_data[10000:]
+
+y_val = train_labels[:10000]
+y_train = train_labels[10000:]
+
+# train model
+fitModel = model.fit(x_train, y_train,
+                     epochs=40,
+                     batch_size=512,  # buffering
+                     validation_data=(x_val, y_val),
+                     verbose=1
+                     )
+
+results = model.evaluate(test_data, test_labels)
+
+# print(results)  # print loss & model accuracy with test data
+
+test_review = test_data[0]
+predict = model.predict([test_review])
+print("Review: ", decode_review(test_review))
+print("Prediction: ", str(predict[0]))
+print("Actual: ", str(test_labels[0]))
+
+
+
