@@ -31,7 +31,7 @@ def decode_review(text):  # decode integer array to human-readable text
 
 # setup neural network model with layers
 model = keras.Sequential()
-model.add(keras.layers.Embedding(10000, 16))
-model.add(keras.layers.GlobalAvgPool1D())
-model.add(keras.layers.Dense(16, activation="relu"))
-model.add(keras.layers.Dense(1, activation="sigmoid"))
+model.add(keras.layers.Embedding(10000, 16))  # turns word-indices into word-vectors with 16 coefficients (array)
+model.add(keras.layers.GlobalAvgPool1D())  # averages vectors out (shrinks their data)
+model.add(keras.layers.Dense(16, activation="relu"))  # 16 neurons
+model.add(keras.layers.Dense(1, activation="sigmoid"))  # produces single value as result of neuron connections
