@@ -18,7 +18,7 @@ word_index["<UNUSED>"] = 3
 reverse_word_index = dict([(value, key) for (key, value) in word_index.items()])  # swap values & keys
 
 
-train_data = keras.preprocessing.sequence.pad_sequences(  # normalize data so every review has a length of 250 words
+train_data = keras.preprocessing.sequence.pad_sequences(  # normalize/pad data so every review has a length of 250 words
     train_data, value=word_index["<PAD>"], padding="post", maxlen=250)
 test_data = keras.preprocessing.sequence.pad_sequences(
     test_data, value=word_index["<PAD>"], padding="post", maxlen=250)
