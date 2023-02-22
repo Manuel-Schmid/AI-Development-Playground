@@ -24,13 +24,24 @@ test_data = keras.preprocessing.sequence.pad_sequences(
     test_data, value=word_index["<PAD>"], padding="post", maxlen=250)
 
 
+def encode_review(text):
+    encoded = [1]
+    for word in text:
+        if word.lower() in word_index:
+            encoded.append(word_index[word.lower()])  # add number associated with word
+        else:
+            encoded.append(2)  # unknown word
+    return encoded
+
+
 def decode_review(text):  # decode integer array to human-readable text
     return " ".join([reverse_word_index.get(i, "?") for i in text])
 
 # print(decode_review(test_data[76]))
 
 
-# setup neural network model with layers
+# setup, train and save neural network model
+"""
 model = keras.Sequential()
 model.add(keras.layers.Embedding(88000, 16))  # turns word-indices into word-vectors with 16 coefficients (array)
 model.add(keras.layers.GlobalAvgPool1D())  # averages vectors out (shrinks their data)
@@ -60,7 +71,33 @@ fitModel = model.fit(x_train, y_train,
 
 results = model.evaluate(test_data, test_labels)
 
-# print(results)  # print loss & model accuracy with test data
+print(results)  # print loss & model accuracy with test data
+
+model.save("../../models/imdb_model.h5")  # save tensorflow model
+"""
+
+model = keras.models.load_model("../../models/imdb_model.h5")
+
+with open("../../data/movie_review.txt", encoding="utf-8") as f:
+    text = f.read()
+    nText = text \
+        .replace(",", "") \
+        .replace(".", "") \
+        .replace("(", "") \
+        .replace(")", "") \
+        .replace(":", "") \
+        .replace('"', "") \
+        .strip() \
+        .split(" ")  # normalize review text
+    encode = encode_review(nText)
+    encode = keras.preprocessing.sequence.pad_sequences(  # normalize/pad data so every review has a length of 250 words
+        [encode], value=word_index["<PAD>"], padding="post", maxlen=250)
+    predict = model.predict(encode)
+
+    print(nText)
+    print(encode)
+    print(predict[0])
+
 
 # test_review = test_data[0]
 # predict = model.predict([test_review])
