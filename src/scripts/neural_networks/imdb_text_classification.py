@@ -62,11 +62,11 @@ results = model.evaluate(test_data, test_labels)
 
 # print(results)  # print loss & model accuracy with test data
 
-test_review = test_data[0]
-predict = model.predict([test_review])
-print("Review: ", decode_review(test_review))
-print("Prediction: ", str(predict[0]))
-print("Actual: ", str(test_labels[0]))
+# test_review = test_data[0]
+# predict = model.predict([test_review])
+# print("Review: ", decode_review(test_review))
+# print("Prediction: ", str(predict[0]))
+# print("Actual: ", str(test_labels[0]))
 
 
 
