@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 data = keras.datasets.imdb  # fetch IMDB movie-review dataset
+sentiment_labels = ["negative", "positive"]
 
 (train_data, train_labels), (test_data, test_labels) \
     = data.load_data(num_words=88000)  # only 10'000 most frequent words
@@ -46,7 +47,7 @@ def decode_review(text):  # decode integer array to human-readable text
 model = keras.Sequential()
 model.add(keras.layers.Embedding(88000, 16))  # turns word-indices into word-vectors with 16 coefficients (array)
 model.add(keras.layers.GlobalAvgPool1D())  # averages vectors out (shrinks their data)
-model.add(keras.layers.Dense(16, activation="relu"))  # 16 neurons
+model.add(keras.layers.Dense(32, activation="relu"))  # 32 neurons
 model.add(keras.layers.Dense(1, activation="sigmoid"))  # produces single value as result of neuron connections
 
 model.summary()
@@ -64,7 +65,7 @@ y_train = train_labels[10000:]
 
 # train model
 fitModel = model.fit(x_train, y_train,
-                     epochs=40,
+                     epochs=20,
                      batch_size=512,  # buffering
                      validation_data=(x_val, y_val),
                      verbose=1
@@ -72,11 +73,11 @@ fitModel = model.fit(x_train, y_train,
 
 results = model.evaluate(test_data, test_labels)
 
-print(results)  # print loss & model accuracy with test data
-
+print("Accuracy: ", results[1])  # print model accuracy with test data
 model.save("../../models/imdb_model.h5")  # save tensorflow model
 """
 
+# """
 model = keras.models.load_model("../../models/imdb_model.h5")
 
 
@@ -87,6 +88,10 @@ def predict_review_classification(review_text):
         .replace("(", "") \
         .replace(")", "") \
         .replace(":", "") \
+        .replace(";", "") \
+        .replace('&', "and") \
+        .replace('-', "") \
+        .replace('_', "") \
         .replace('"', "") \
         .strip() \
         .split(" ")  # normalize review text
@@ -94,19 +99,22 @@ def predict_review_classification(review_text):
     encode = keras.preprocessing.sequence.pad_sequences(  # normalize/pad data so every review has a length of 250 words
         [encode], value=word_index["<PAD>"], padding="post", maxlen=250)
     predict = model.predict(encode)
+    predict = predict[0][0]
 
     print(n_text)
     print(encode)
-    print(predict[0])
+    print("Prediction: ", round(predict, 2), " -> ", sentiment_labels[round(predict)])
 
 
-with open("../../data/movie_review.txt", encoding="utf-8") as f:
-    predict_review_classification(f.read())
+# with open("../../data/movie_review.txt", encoding="utf-8") as f:
+#     predict_review_classification(f.read())
 
-# predict_review_classification("This movie is very good")
+predict_review_classification("The movie was good")
 
 # test_review = test_data[0]
 # predict = model.predict([test_review])
 # print("Review: ", decode_review(test_review))
 # print("Prediction: ", str(predict[0]))
 # print("Actual: ", str(test_labels[0]))
+
+# """
