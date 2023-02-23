@@ -5,7 +5,8 @@ import matplotlib.pyplot as plt
 
 data = keras.datasets.imdb  # fetch IMDB movie-review dataset
 
-(train_data, train_labels), (test_data, test_labels) = data.load_data(num_words=88000)  # only 10'000 most frequent words
+(train_data, train_labels), (test_data, test_labels) \
+    = data.load_data(num_words=88000)  # only 10'000 most frequent words
 
 word_index = data.get_word_index()  # gets words w. indices
 
@@ -78,9 +79,9 @@ model.save("../../models/imdb_model.h5")  # save tensorflow model
 
 model = keras.models.load_model("../../models/imdb_model.h5")
 
-with open("../../data/movie_review.txt", encoding="utf-8") as f:
-    text = f.read()
-    nText = text \
+
+def predict_review_classification(review_text):
+    n_text = review_text \
         .replace(",", "") \
         .replace(".", "") \
         .replace("(", "") \
@@ -89,14 +90,21 @@ with open("../../data/movie_review.txt", encoding="utf-8") as f:
         .replace('"', "") \
         .strip() \
         .split(" ")  # normalize review text
-    encode = encode_review(nText)
+    encode = encode_review(n_text)
     encode = keras.preprocessing.sequence.pad_sequences(  # normalize/pad data so every review has a length of 250 words
         [encode], value=word_index["<PAD>"], padding="post", maxlen=250)
     predict = model.predict(encode)
 
-    print(nText)
+    print(n_text)
     print(encode)
     print(predict[0])
+
+
+# with open("../../data/movie_review.txt", encoding="utf-8") as f:
+#     text = f.read()
+#     predict_review_classification(text)
+
+predict_review_classification("This movie is absolutely fantastic")
 
 
 # test_review = test_data[0]
