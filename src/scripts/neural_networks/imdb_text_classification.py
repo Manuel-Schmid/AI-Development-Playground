@@ -100,11 +100,10 @@ def predict_review_classification(review_text):
     print(predict[0])
 
 
-# with open("../../data/movie_review.txt", encoding="utf-8") as f:
-#     text = f.read()
-#     predict_review_classification(text)
+with open("../../data/movie_review.txt", encoding="utf-8") as f:
+    predict_review_classification(f.read())
 
-predict_review_classification("This movie is absolutely fantastic")
+# predict_review_classification("This movie is very good")
 
 # test_review = test_data[0]
 # predict = model.predict([test_review])
