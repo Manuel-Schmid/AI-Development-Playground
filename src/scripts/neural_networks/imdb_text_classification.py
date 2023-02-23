@@ -106,12 +106,8 @@ def predict_review_classification(review_text):
 
 predict_review_classification("This movie is absolutely fantastic")
 
-
 # test_review = test_data[0]
 # predict = model.predict([test_review])
 # print("Review: ", decode_review(test_review))
 # print("Prediction: ", str(predict[0]))
 # print("Actual: ", str(test_labels[0]))
-
-
-
