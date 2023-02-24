@@ -26,6 +26,8 @@ df1 = pd.read_csv('../../data/USvideos.csv')
 
 # load the datasets containing the category names
 data1 = json.load(open('../../data/US_category_id.json'))
+
+
 # data2 = json.load(open('CA_category_id.json'))
 # data3 = json.load(open('GB_category_id.json'))
 
@@ -67,7 +69,6 @@ def clean_text(text):
 
 corpus = [clean_text(e) for e in entertainment]
 
-
 tokenizer = Tokenizer()
 
 
@@ -92,7 +93,8 @@ inp_sequences, total_words = get_sequence_of_tokens(corpus)
 
 def generate_padded_sequences(input_sequences):
     max_sequence_len = max([len(x) for x in input_sequences])
-    input_sequences = np.array(keras.preprocessing.sequence.pad_sequences(input_sequences, maxlen=max_sequence_len, padding='pre'))
+    input_sequences = np.array(
+        keras.preprocessing.sequence.pad_sequences(input_sequences, maxlen=max_sequence_len, padding='pre'))
     predictors, label = input_sequences[:, :-1], input_sequences[:, -1]
     label = ku.to_categorical(label, num_classes=total_words)
     return predictors, label, max_sequence_len
@@ -137,5 +139,6 @@ def generate_text(seed_text, next_words, model, max_sequence_len):
             break
     seed_text += ' ' + output_word
     return seed_text.title()
+
 
 print(generate_text('test text', 5, model, max_sequence_len))
