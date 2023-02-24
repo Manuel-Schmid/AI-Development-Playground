@@ -123,3 +123,19 @@ model = create_model(max_sequence_len, total_words)
 model.fit(predictors, label, epochs=20, verbose=5)
 
 
+def generate_text(seed_text, next_words, model, max_sequence_len):
+    for _ in range(next_words):
+        token_list = tokenizer.texts_to_sequences([seed_text])[0]
+    token_list = keras.preprocessing.sequence.pad_sequences([token_list], maxlen=max_sequence_len - 1, padding='pre')
+    predicted = model.predict(token_list)
+    classes = np.argmax(predicted, axis=1)
+
+    output_word = ''
+    for word, index in tokenizer.word_index.items():
+        if index == classes:
+            output_word = word
+            break
+    seed_text += ' ' + output_word
+    return seed_text.title()
+
+print(generate_text('test text', 5, model, max_sequence_len))
