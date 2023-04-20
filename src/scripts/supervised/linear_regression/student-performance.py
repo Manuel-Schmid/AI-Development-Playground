@@ -1,17 +1,17 @@
 import pandas as pd
 import numpy as np
 import sklearn
-"""
 from sklearn import linear_model
 import matplotlib.pyplot as pyplot
 import pickle
-from matplotlib import style>
-"""
+from matplotlib import style
+
 
 data = pd.read_csv("../../../data/student-mat.csv", sep=";")
 data = data[data.G3 != 0]
+p2 = "internet"
 data = data[["G1", "G2", "G3", "studytime", "absences", "failures"]]  # only keep useful columns
-# data[""] = data[""].map({'no': 0, 'yes': 1})  # remap values to integers
+# data[p2] = data[p2].map({'no': 0, 'yes': 1})  # remap values to integers
 predict = "G3"  # predict G3 (final grade)
 
 x = np.array(data.drop([predict], axis=1))  # dataframe without G3
@@ -49,6 +49,7 @@ x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(x, y
 #     print(x_test[x], round(predictions[x]), y_test[x])  # print input values, predicted grades and actual final grades
 
 # p = "G3"  # x-axis values, change this to analyse correlations
+# p = p2
 # style.use("ggplot")
 # pyplot.scatter(data[p], data["G3"])
 # pyplot.xlabel(p)
