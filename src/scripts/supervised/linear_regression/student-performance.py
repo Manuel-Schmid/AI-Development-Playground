@@ -18,6 +18,14 @@ x = np.array(data.drop([predict], axis=1))  # dataframe without G3
 y = np.array(data[predict])  # dataframe with only G3 values
 x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(x, y, test_size=0.1)
 
+# p = "G2"  # x-axis values, change this to analyse correlations
+# p = p2  # x-axis values, change this to analyse correlations
+# style.use("ggplot")
+# pyplot.scatter(data[p], data["G3"])
+# pyplot.xlabel(p)
+# pyplot.ylabel("Final Grade")
+# pyplot.show()
+
 
 # Training
 # best = 0
