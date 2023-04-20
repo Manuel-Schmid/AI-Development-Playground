@@ -54,21 +54,23 @@ for i in range(iterations):  # trains 10k models and overwrites model each time 
 
 
 # Using the Model
-# pickle_in = open("../models/studentmodel.pickle", "rb")  # load trained model from pickle file
-# linear = pickle.load(pickle_in)
-#
+# """
+pickle_in = open("../../../models/studentmodel.pickle", "rb")  # load trained model from pickle file
+linear = pickle.load(pickle_in)
+
 # print("Coefficient: \n", linear.coef_)
 # print("Intercept: \n", linear.intercept_)
-#
-# predictions = linear.predict(x_test)
-#
-# for x in range(len(predictions)):
-#     print(x_test[x], round(predictions[x]), y_test[x])  # print input values, predicted grades and actual final grades
 
-# p = "G3"  # x-axis values, change this to analyse correlations
-# p = p2
-# style.use("ggplot")
-# pyplot.scatter(data[p], data["G3"])
-# pyplot.xlabel(p)
-# pyplot.ylabel("Final Grade")
-# pyplot.show()
+predictions = linear.predict(x_test)
+
+predict_sum = 0
+actual_sum = 0
+for x in range(len(predictions)):
+    predict_sum += round(predictions[x])
+    actual_sum += y_test[x]
+    # x_test[x]  # input values
+    print(round(predictions[x]), y_test[x])  # print predicted grades and actual final grades
+
+print(f'Average Predicted: {predict_sum/len(predictions)}')
+print(f'Average Actual: {actual_sum/len(predictions)}')
+# """
