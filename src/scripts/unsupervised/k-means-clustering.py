@@ -4,9 +4,9 @@ from sklearn.preprocessing import scale
 from sklearn.datasets import load_digits
 from sklearn.cluster import KMeans
 from sklearn import metrics
+# import matplotlib.pyplot as plt
 
-
-# Data Preparation# Data Preparation
+# Data Preparation
 digits = load_digits()  # load handwritten digits dataset
 data = scale(digits.data)  # scale numbers down to range between -1 & 1
 y = digits.target
@@ -32,3 +32,34 @@ def bench_k_means(estimator, name, _data):  # function from sklearn for formatte
 
 clf_model = KMeans(n_clusters=k, init="random", n_init=10)
 bench_k_means(clf_model, "1", data)
+
+
+# data = np.array([
+#     [1, 2],
+#     [2, 3],
+#     [3, 6],
+#     [4, 2],
+#     [8, 4],
+#     [4, 6],
+#     [6, 6],
+#     [5, 1],
+#     [8, 4],
+#     [9, 3],
+#     [5, 2],
+#     [3, 9],
+#     [4, 7],
+# ])
+# x, y = data.T
+# print(x)
+# plt.scatter(x, y)
+# # plt.show()
+#
+#
+# # centroids
+# plt.scatter(3, 1)
+# plt.scatter(8, 7)
+# plt.show()
+#
+#
+# for p in data:
+#     print(p)

@@ -1,13 +1,11 @@
 import tensorflow as tf
 from tensorflow import keras
-import numpy as np
-import matplotlib.pyplot as plt
 
 data = keras.datasets.imdb  # fetch IMDB movie-review dataset
 sentiment_labels = ["negative", "positive"]
 
 (train_data, train_labels), (test_data, test_labels) \
-    = data.load_data(num_words=88000)  # only 10'000 most frequent words
+    = data.load_data(num_words=80000)  # only 80'000 most frequent words
 
 word_index = data.get_word_index()  # gets words w. indices
 
@@ -43,7 +41,7 @@ def decode_review(text):  # decode integer array to human-readable text
 
 
 # setup, train and save neural network model
-"""
+# """
 model = keras.Sequential()
 model.add(keras.layers.Embedding(88000, 16))  # turns word-indices into word-vectors with 16 coefficients (array)
 model.add(keras.layers.GlobalAvgPool1D())  # averages vectors out (shrinks their data)
@@ -75,9 +73,9 @@ results = model.evaluate(test_data, test_labels)
 
 print("Accuracy: ", results[1])  # print model accuracy with test data
 model.save("../../models/imdb_model.h5")  # save tensorflow model
-"""
-
 # """
+
+"""
 model = keras.models.load_model("../../models/imdb_model.h5")
 
 
@@ -117,4 +115,4 @@ predict_review_classification("The movie was good")
 # print("Prediction: ", str(predict[0]))
 # print("Actual: ", str(test_labels[0]))
 
-# """
+"""
