@@ -39,7 +39,7 @@ print(acc)  # print model accuracy
 names = ["unacceptable", "acceptable", "good", "very good"]  # text labels to map class predictions > output readability
 predicted = model.predict(x_test)
 for i in range(len(predicted)):
-    print("Data: ", x_test[i], "\t | Predicted: ", names[predicted[i]], "\t | Actual: ", names[y_test[i]])
+    print("Data: ", x_test[i], "\t | Predicted: ", names[predicted[i]], "\t\t\t\t | Actual: ", names[y_test[i]])
     neighbours = model.kneighbors([x_test[i]], 7, True)
     # print("Neighbours: ", neighbours)
 
