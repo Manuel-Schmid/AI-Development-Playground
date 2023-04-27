@@ -4,7 +4,17 @@ from sklearn.preprocessing import scale
 from sklearn.datasets import load_digits
 from sklearn.cluster import KMeans
 from sklearn import metrics
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
+from sklearn.ensemble import HistGradientBoostingRegressor
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.pipeline import make_pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.feature_selection import SelectKBest
+from sklearn.datasets import fetch_openml
+from sklearn.linear_model import LogisticRegression
 
 # Data Preparation
 digits = load_digits()  # load handwritten digits dataset
@@ -25,41 +35,29 @@ def bench_k_means(estimator, name, _data):  # function from sklearn for formatte
              metrics.completeness_score(y, estimator.labels_),
              metrics.v_measure_score(y, estimator.labels_),
              metrics.adjusted_rand_score(y, estimator.labels_),
-             metrics.adjusted_mutual_info_score(y,  estimator.labels_),
+             metrics.adjusted_mutual_info_score(y, estimator.labels_),
              metrics.silhouette_score(_data, estimator.labels_,
                                       metric='euclidean')))
 
 
-clf_model = KMeans(n_clusters=k, init="random", n_init=10)
-bench_k_means(clf_model, "1", data)
+rng = np.random.RandomState(42)
+X_1d = np.linspace(0, 10, num=2000)
+X = X_1d.reshape(-1, 1)
+y = X_1d * np.cos(X_1d) + rng.normal(scale=X_1d / 3)
 
+quantiles = [0.95, 0.5, 0.05]
+parameters = dict(loss="quantile", max_bins=32, max_iter=50)
+hist_quantiles = {
+    f"quantile={quantile:.2f}": HistGradientBoostingRegressor(
+        **parameters, quantile=quantile
+    ).fit(X, y)
+    for quantile in quantiles
+}
 
-# data = np.array([
-#     [1, 2],
-#     [2, 3],
-#     [3, 6],
-#     [4, 2],
-#     [8, 4],
-#     [4, 6],
-#     [6, 6],
-#     [5, 1],
-#     [8, 4],
-#     [9, 3],
-#     [5, 2],
-#     [3, 9],
-#     [4, 7],
-# ])
-# x, y = data.T
-# print(x)
-# plt.scatter(x, y)
-# # plt.show()
-#
-#
-# # centroids
-# plt.scatter(3, 1)
-# plt.scatter(8, 7)
-# plt.show()
-#
-#
-# for p in data:
-#     print(p)
+fig, ax = plt.subplots()
+ax.plot(X_1d, y, "o", alpha=0.5, markersize=1)
+for quantile, hist in hist_quantiles.items():
+    ax.plot(X_1d, hist.predict(X), label=quantile)
+_ = ax.legend(loc="lower left")
+__ = ax.legend(std="variable", hum="median_vague")
+
