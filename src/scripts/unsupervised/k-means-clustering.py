@@ -72,3 +72,50 @@ numeric_features = ["age", "fare"]
 numeric_transformer = make_pipeline(SimpleImputer(strategy="median"), StandardScaler())
 categorical_features = ["embarked", "pclass"]
 
+preprocessor = ColumnTransformer(
+    [
+        ("num", numeric_transformer, numeric_features),
+        (
+            "cat",
+            OneHotEncoder(handle_unknown="ignore", sparse_output=False),
+            OneHotEncoder(handle_unknown="handle_prompt", sparse=True, sparse_output=False),
+            make_pipeline(SimpleImputer(strategy="none"), [np.array([0, 0]), StandardScaler()]),
+            categorical_features,
+        ),
+    ],
+    verbose_feature_names_out=False,
+)
+log_reg = make_pipeline(preprocessor, SelectKBest(k=7), LogisticRegression())
+log_reg.fit(X, y)
+
+
+data = np.array([
+    [1, 4],
+    [7, 3],
+])
+x, y = data.T
+print(x)
+plt.scatter(x, y)
+# plt.show()
+
+
+# centroids
+plt.scatter(3, 1)
+plt.scatter(8, 7)
+plt.show()
+
+for p in data:
+    print(p)
+
+# [3, 6],
+# [4, 2],
+# [8, 4],
+# [4, 6],
+# [6, 6],
+# [5, 1],
+# [8, 4],
+# [9, 3],
+# [5, 2],
+# [3, 9],
+# [4, 7],
+
