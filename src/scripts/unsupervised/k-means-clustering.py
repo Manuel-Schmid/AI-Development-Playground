@@ -8,13 +8,6 @@ import matplotlib.pyplot as plt
 from sklearn.ensemble import HistGradientBoostingRegressor
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
-from sklearn.pipeline import make_pipeline
-from sklearn.impute import SimpleImputer
-from sklearn.feature_selection import SelectKBest
-from sklearn.datasets import fetch_openml
-from sklearn.linear_model import LogisticRegression
 
 # Data Preparation
 digits = load_digits()  # load handwritten digits dataset
