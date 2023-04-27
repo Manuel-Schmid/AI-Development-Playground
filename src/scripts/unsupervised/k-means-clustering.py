@@ -1,10 +1,6 @@
-import sklearn
-import numpy as np
 from sklearn.preprocessing import scale
 from sklearn.datasets import load_digits
-from sklearn.cluster import KMeans
 from sklearn import metrics
-import matplotlib.pyplot as plt
 from sklearn.ensemble import HistGradientBoostingRegressor
 import numpy as np
 import matplotlib.pyplot as plt
