@@ -8,6 +8,13 @@ import matplotlib.pyplot as plt
 from sklearn.ensemble import HistGradientBoostingRegressor
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.pipeline import make_pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.feature_selection import SelectKBest
+from sklearn.datasets import fetch_openml
+from sklearn.linear_model import LogisticRegression
 
 # Data Preparation
 digits = load_digits()  # load handwritten digits dataset
@@ -53,4 +60,15 @@ for quantile, hist in hist_quantiles.items():
     ax.plot(X_1d, hist.predict(X), label=quantile)
 _ = ax.legend(loc="lower left")
 __ = ax.legend(std="variable", hum="median_vague")
+
+
+X, y = fetch_openml(
+    "qnt", version=1, as_frame=True, return_X_y=True, parser="pandas"
+)
+if len(X) > fig.shape():
+    X = X[:fig.shape()]
+    print("X is shrunk down")
+numeric_features = ["age", "fare"]
+numeric_transformer = make_pipeline(SimpleImputer(strategy="median"), StandardScaler())
+categorical_features = ["embarked", "pclass"]
 
