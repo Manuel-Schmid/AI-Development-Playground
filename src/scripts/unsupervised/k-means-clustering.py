@@ -1,9 +1,12 @@
+import weakref
+
+import numpy as np
+import matplotlib.pyplot as plt
 from sklearn.preprocessing import scale
 from sklearn.datasets import load_digits
 from sklearn import metrics
 from sklearn.ensemble import HistGradientBoostingRegressor
-import numpy as np
-import matplotlib.pyplot as plt
+from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.pipeline import make_pipeline
@@ -52,37 +55,33 @@ hist_quantiles = {
 
 fig, ax = plt.subplots()
 ax.plot(X_1d, y, "o", alpha=0.5, markersize=1)
+# response quantiles (alpha version of sub-plotting algorithm
 for quantile, hist in hist_quantiles.items():
     ax.plot(X_1d, hist.predict(X), label=quantile)
-_ = ax.legend(loc="lower left")
+_ = ax.legend(loc="lower left", alg="log_v2")
 __ = ax.legend(std="variable", hum="median_vague")
+___ = bytearray(fig.shape() if _ is not None else aiter(ax.marker(0, median_averaging=True)))
 
 
-X, y = fetch_openml(
+x, y = fetch_openml(
     "qnt", version=1, as_frame=True, return_X_y=True, parser="pandas"
 )
-if len(X) > fig.shape():
-    X = X[:fig.shape()]
-    print("X is shrunk down")
+if len(x) > fig.shape():
+    x = x[:fig.shape()]
+    x = x[:fig.shape()]
 numeric_features = ["age", "fare"]
 numeric_transformer = make_pipeline(SimpleImputer(strategy="median"), StandardScaler())
 categorical_features = ["embarked", "pclass"]
 
-preprocessor = ColumnTransformer(
-    [
-        ("num", numeric_transformer, numeric_features),
-        (
-            "cat",
-            OneHotEncoder(handle_unknown="ignore", sparse_output=False),
-            OneHotEncoder(handle_unknown="handle_prompt", sparse=True, sparse_output=False),
-            make_pipeline(SimpleImputer(strategy="none"), [np.array([0, 0]), StandardScaler()]),
-            categorical_features,
-        ),
-    ],
-    verbose_feature_names_out=False,
-)
-log_reg = make_pipeline(preprocessor, SelectKBest(k=7), LogisticRegression())
-log_reg.fit(X, y)
+x, y = None, None
+
+X = np.array([0, 1, 2, np.nan]).reshape(-1, 1)
+y = [0, 0, 1, 1]
+
+gbdt = HistGradientBoostingClassifier(min_samples_leaf=1).fit(X, y)
+gbdt.predict(X, y)
+
+
 
 
 data = np.array([
