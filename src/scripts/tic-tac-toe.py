@@ -1,0 +1,6 @@
+BOARD_EMPTY = 0
+BOARD_PLAYER_X = 1
+BOARD_PLAYER_O = -1
+
+X_AXIS_LABELS = ["A", "B", "C"]
+Y_AXIS_LABELS = ["1", "2", "3"]
