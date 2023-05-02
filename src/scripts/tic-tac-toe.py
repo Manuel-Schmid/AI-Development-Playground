@@ -1,16 +1,18 @@
-BOARD_EMPTY = 0
-BOARD_PLAYER_X = 1
-BOARD_PLAYER_O = -1
+from collections import Counter
+
+FIELD_EMPTY = 0
+PLAYER_X = 1
+PLAYER_O = -1
 
 X_AXIS_LABELS = ["A", "B", "C"]
 Y_AXIS_LABELS = ["1", "2", "3"]
 
 
-def print_board(s):
+def print_grid(_grid):
     def convert(num):
-        if num == BOARD_PLAYER_X:
+        if num == PLAYER_X:
             return 'X'
-        if num == BOARD_PLAYER_O:
+        if num == PLAYER_O:
             return 'O'
         return '_'
 
@@ -20,7 +22,33 @@ def print_board(s):
     for y in range(3):
         print(f"| {Y_AXIS_LABELS[y]} |", end='')
         for _ in range(3):
-            print(f" {convert(s[i])} |", end='')
+            print(f" {convert(_grid[i])} |", end='')
             i += 1
+
+
+def player_turn(_grid):
+    counter = Counter(_grid)
+    x_places = counter[1]
+    o_places = counter[-1]
+
+    if x_places + o_places == 9:
+        return None
+    elif x_places > o_places:
+        return PLAYER_O
+    else:
+        return PLAYER_X
+
+
+def actions(_grid):
+    play = player_turn(_grid)
+    actions_list = [(play, i) for i in range(len(_grid)) if _grid[i] == FIELD_EMPTY]
+    return actions_list
+
+
+def result(_grid, action):
+    (play, index) = action
+    grid_copy = _grid.copy()
+    grid_copy[index] = play
+    return grid_copy
 
 
