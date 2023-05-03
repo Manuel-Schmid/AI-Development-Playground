@@ -98,3 +98,21 @@ def utility(_grid, cost):
 
     return score, idx_cost  # score & associated cost
 
+
+def minimax(_grid):
+    action_list = actions(_grid)
+    utils = []
+    # Each item in utils contains action associated, score and cost of that action
+    for action in action_list:
+        n_grid = result(_grid, action)
+        utils.append((action, utility(n_grid, 1)))
+
+    # if utils has no objects return default action and utility
+    if len(utils) == 0:
+        return (0, 0), (0, 0)
+
+    # Sort list in ascending order of cost
+    sorted_list = sorted(utils, key=lambda l: l[0][1])
+
+    action = min(sorted_list, key=lambda l: l[1])
+    return action
