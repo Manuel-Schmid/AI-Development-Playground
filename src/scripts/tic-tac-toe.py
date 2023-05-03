@@ -16,12 +16,11 @@ def print_grid(_grid):
 
     print(f"\n    | A | B | C |")
 
-    i = 0
-    for y in range(3):
-        print(f"| {Y_AXIS_LABELS[y]} |", end='')
-        for _ in range(3):
-            print(f" {convert(_grid[i])} |", end='')
-            i += 1
+    for i in range(3):
+        print(f"| {Y_AXIS_LABELS[i]} |", end='')
+        for j in range(3):
+            print(f" {convert(_grid[(i * 3) + j])} |", end='')
+        print()
 
 
 def player_turn(_grid):
