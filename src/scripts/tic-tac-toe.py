@@ -52,3 +52,27 @@ def result(_grid, action):
     return grid_copy
 
 
+def terminal(_grid):  # is the game finished?
+    for i in range(3):
+        # Check rows
+        if _grid[3 * i] == _grid[3 * i + 1] == _grid[3 * i + 2] != FIELD_EMPTY:
+            return _grid[3 * i]
+        # Check columns
+        if _grid[i] == _grid[i + 3] == _grid[i + 6] != FIELD_EMPTY:
+            return _grid[i]
+
+    # Check diagonals
+    if _grid[0] == _grid[4] == _grid[8] != FIELD_EMPTY:
+        return _grid[0]
+    if _grid[2] == _grid[4] == _grid[6] != FIELD_EMPTY:
+        return _grid[2]
+
+    # Check if moves are available
+    if player_turn(_grid) is None:
+        return 0
+
+    # Game is not finished
+    return None
+
+
+
