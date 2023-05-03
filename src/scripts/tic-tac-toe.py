@@ -1,5 +1,3 @@
-from collections import Counter
-
 FIELD_EMPTY = 0
 PLAYER_X = 1
 PLAYER_O = -1
@@ -27,9 +25,8 @@ def print_grid(_grid):
 
 
 def player_turn(_grid):
-    counter = Counter(_grid)
-    x_places = counter[1]
-    o_places = counter[-1]
+    x_places = _grid.count(PLAYER_X)
+    o_places = _grid.count(PLAYER_O)
 
     if x_places + o_places == 9:
         return None
