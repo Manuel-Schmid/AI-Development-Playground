@@ -36,15 +36,15 @@ def player_turn(_grid):
 
 
 def actions(_grid):
-    play = player_turn(_grid)
-    actions_list = [(play, i) for i in range(len(_grid)) if _grid[i] == FIELD_EMPTY]
+    player = player_turn(_grid)
+    actions_list = [(player, i) for i in range(len(_grid)) if _grid[i] == FIELD_EMPTY]
     return actions_list
 
 
 def result(_grid, action):
-    (play, index) = action
+    (player, idx) = action
     grid_copy = _grid.copy()
-    grid_copy[index] = play
+    grid_copy[idx] = player
     return grid_copy
 
 
@@ -71,4 +71,30 @@ def terminal(_grid):  # is the game finished?
     return None
 
 
+def utility(_grid, cost):
+    term = terminal(_grid)
+    if term is not None:
+        return term, cost  # cost of reaching terminal state
+
+    action_list = actions(_grid)
+    utils = []
+    for action in action_list:
+        n_grid = result(_grid, action)
+        utils.append(utility(n_grid, cost + 1))  # Every recursion increments cost (depth)
+
+    # Remember associated cost with score of state
+    score = utils[0][0]
+    idx_cost = utils[0][1]
+    if player_turn(_grid) == PLAYER_X:
+        for i in range(len(utils)):
+            if utils[i][0] > score:
+                score = utils[i][0]
+                idx_cost = utils[i][1]
+    else:
+        for i in range(len(utils)):
+            if utils[i][0] < score:
+                score = utils[i][0]
+                idx_cost = utils[i][1]
+
+    return score, idx_cost  # score & associated cost
 
