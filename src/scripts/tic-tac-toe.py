@@ -1,9 +1,25 @@
+class CliColors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+
 FIELD_EMPTY = 0
 PLAYER_X = 1
 PLAYER_O = -1
 
-X_AXIS_LABELS = ["A", "B", "C"]
-Y_AXIS_LABELS = ["1", "2", "3"]
+X_AXIS_LABELS = ['A', 'B', 'C']
+Y_AXIS_LABELS = ['1', '2', '3']
+
+
+def cyan(s):
+    return f'{CliColors.OKCYAN}{s}{CliColors.ENDC}'
 
 
 def print_grid(_grid):
@@ -14,12 +30,12 @@ def print_grid(_grid):
             return 'O'
         return '_'
 
-    print(f"\n    | A | B | C |")
+    print(f'\n    | {cyan("A")} | {cyan("B")} | {cyan("C")} |')
 
     for i in range(3):
-        print(f"| {Y_AXIS_LABELS[i]} |", end='')
+        print(f'| {cyan(Y_AXIS_LABELS[i])} |', end='')
         for j in range(3):
-            print(f" {convert(_grid[(i * 3) + j])} |", end='')
+            print(f' {convert(_grid[(i * 3) + j])} |', end='')
         print()
 
 
