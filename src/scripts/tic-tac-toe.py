@@ -1,11 +1,14 @@
+import random
+
+
 class CliColors:
     HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKCYAN = '\033[96m'
-    OKGREEN = '\033[92m'
+    BLUE = '\033[94m'
+    CYAN = '\033[96m'
+    GREEN = '\033[92m'
     WARNING = '\033[93m'
     FAIL = '\033[91m'
-    ENDC = '\033[0m'
+    END = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
@@ -19,7 +22,7 @@ Y_AXIS_LABELS = ['1', '2', '3']
 
 
 def cyan(s):
-    return f'{CliColors.OKCYAN}{s}{CliColors.ENDC}'
+    return f'{CliColors.CYAN}{s}{CliColors.END}'
 
 
 def print_grid(_grid):
@@ -132,3 +135,45 @@ def minimax(_grid):
 
     action = min(sorted_list, key=lambda l: l[1])
     return action
+
+
+# Initializing the state
+grid = [FIELD_EMPTY for _ in range(9)]
+print('|-------- { TIC TAC TOE } --------|')
+print('You\'re X while the Computer is O')
+
+print_grid(grid)
+
+# Run program while game is not terminated
+while terminal(grid) is None:
+    if player_turn(grid) == PLAYER_X:
+        print('\n\nIt\'s your turn', end='\n')
+        x = int(X_AXIS_LABELS.index(input('Enter the x-coordinate [A-C]: ')))
+        y = int(input('Enter the y-coordinate [1-3]: ')) - 1
+        index = 3 * y + x
+
+        if not grid[index] == FIELD_EMPTY:
+            print('That coordinate is already taken. Please try again.')
+            continue
+
+        # Apply action and print grid
+        grid = result(grid, (PLAYER_X, index))
+        print_grid(grid)
+    else:
+        # random index as temporary replacement for computer
+        empty_fields = [i for i in range(len(grid)) if grid[i] == FIELD_EMPTY]
+        index = empty_fields[random.randint(0, len(empty_fields) - 1)]
+        # Apply action and print grid
+        grid = result(grid, (PLAYER_O, index))
+        print_grid(grid)
+
+# print winner
+winner = terminal(grid)
+if winner == PLAYER_X:
+    print('You have won!')
+elif winner == PLAYER_O:
+    print('You have lost!')
+else:
+    print('It\'s a tie.')
+
+
