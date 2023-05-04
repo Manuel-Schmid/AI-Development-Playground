@@ -153,9 +153,9 @@ def minimax(_grid):
     # Sort list in ascending order of cost
     sorted_list = sorted(utils, key=lambda l: l[0][1])
 
-    print('\nAI strength:', AI_STRENGTH)
+    # print('\nAI strength:', AI_STRENGTH)
     action_rating = 1 if random.randint(1, 10) <= AI_STRENGTH else 2  # allow chance for mistakes (eg. strength 7 = 30%)
-    print('\nMove rating:', action_rating)
+    # print('\nMove rating:', action_rating)
     return heapq.nsmallest(action_rating, sorted_list, key=lambda l: l[1])[-1]  # return action
 
 
@@ -167,10 +167,8 @@ AI_OPPONENT = click.confirm(
     default=True
 )
 if AI_OPPONENT:
-    print(AI_STRENGTH)
     while AI_STRENGTH not in range(0, 10):
         AI_STRENGTH = int(input('How strong do you want your AI opponent to be? [0 = worst, 10 = best]: '))
-        print(AI_STRENGTH)
 print('You\'re X while your Opponent is O')
 
 print_grid(grid)
