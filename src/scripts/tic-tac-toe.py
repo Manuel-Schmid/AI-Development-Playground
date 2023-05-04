@@ -50,6 +50,13 @@ def print_grid(_grid):
         print()
 
 
+def get_input_coordinates(_input):
+    _input = _input.upper().replace(' ', '')
+    input_x = X_AXIS_LABELS.index(list(_input)[0])
+    input_y = Y_AXIS_LABELS.index(list(_input)[1])
+    return input_x, input_y
+
+
 def get_action_coordinates_string(a):
     idx = a[1]
     return f'{X_AXIS_LABELS[int(idx % 3)]}{Y_AXIS_LABELS[int(idx / 3)]}'
@@ -172,8 +179,11 @@ print_grid(grid)
 while terminal(grid) is None:
     if player_turn(grid) == PLAYER_X:
         print('\n\nIt\'s your turn', end='\n')
-        x = int(X_AXIS_LABELS.index(input('Enter the x-coordinate [A-C]: ')))
-        y = int(input('Enter the y-coordinate [1-3]: ')) - 1
+        try:
+            x, y = get_input_coordinates(input(f'Enter a coordinate [e.g. {X_AXIS_LABELS[0]}{Y_AXIS_LABELS[1]}]: '))
+        except ValueError:
+            print('That is not a valid coordinate. Please try again.')
+            continue
         index = 3 * y + x
 
         if not grid[index] == FIELD_EMPTY:
