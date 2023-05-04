@@ -1,4 +1,6 @@
 import random
+import click
+import heapq
 
 
 class CliColors:
@@ -13,6 +15,8 @@ class CliColors:
     UNDERLINE = '\033[4m'
 
 
+AI_STRENGTH = -1
+
 FIELD_EMPTY = 0
 PLAYER_X = 1
 PLAYER_O = -1
@@ -23,6 +27,10 @@ Y_AXIS_LABELS = ['1', '2', '3']
 
 def cyan(s):
     return f'{CliColors.CYAN}{s}{CliColors.END}'
+
+
+def green(s):
+    return f'{CliColors.GREEN}{s}{CliColors.END}'
 
 
 def print_grid(_grid):
@@ -40,6 +48,11 @@ def print_grid(_grid):
         for j in range(3):
             print(f' {convert(_grid[(i * 3) + j])} |', end='')
         print()
+
+
+def get_action_coordinates_string(a):
+    idx = a[1]
+    return f'{X_AXIS_LABELS[int(idx % 3)]}{Y_AXIS_LABELS[int(idx / 3)]}'
 
 
 def player_turn(_grid):
@@ -133,14 +146,25 @@ def minimax(_grid):
     # Sort list in ascending order of cost
     sorted_list = sorted(utils, key=lambda l: l[0][1])
 
-    action = min(sorted_list, key=lambda l: l[1])
-    return action
+    print('\nAI strength:', AI_STRENGTH)
+    action_rating = 1 if random.randint(1, 10) <= AI_STRENGTH else 2  # allow chance for mistakes (eg. strength 7 = 30%)
+    print('\nMove rating:', action_rating)
+    return heapq.nsmallest(action_rating, sorted_list, key=lambda l: l[1])[-1]  # return action
 
 
 # Initializing the state
 grid = [FIELD_EMPTY for _ in range(9)]
-print('|-------- { TIC TAC TOE } --------|')
-print('You\'re X while the Computer is O')
+print('|---------- { TIC TAC TOE } ----------|')
+AI_OPPONENT = click.confirm(
+    'Do you want to play against AI? Otherwise the opponents moves will be random.',
+    default=True
+)
+if AI_OPPONENT:
+    print(AI_STRENGTH)
+    while AI_STRENGTH not in range(0, 10):
+        AI_STRENGTH = int(input('How strong do you want your AI opponent to be? [0 = worst, 10 = best]: '))
+        print(AI_STRENGTH)
+print('You\'re X while your Opponent is O')
 
 print_grid(grid)
 
@@ -160,11 +184,19 @@ while terminal(grid) is None:
         grid = result(grid, (PLAYER_X, index))
         print_grid(grid)
     else:
-        # random index as temporary replacement for computer
-        empty_fields = [i for i in range(len(grid)) if grid[i] == FIELD_EMPTY]
-        index = empty_fields[random.randint(0, len(empty_fields) - 1)]
-        # Apply action and print grid
-        grid = result(grid, (PLAYER_O, index))
+        print('\n\nThe opponent is playing its turn: ', end='')
+        action = None
+        if AI_OPPONENT:
+            # Get action by running the minimax algorithm
+            action = minimax(grid)[0]
+        else:
+            empty_fields = [i for i in range(len(grid)) if grid[i] == FIELD_EMPTY]
+            index = empty_fields[random.randint(0, len(empty_fields) - 1)]  # random index of empty grid-field
+            action = (PLAYER_O, index)
+
+        print(green(get_action_coordinates_string(action)))
+        # Apply returned action to the state
+        grid = result(grid, action)
         print_grid(grid)
 
 # print winner
@@ -175,5 +207,3 @@ elif winner == PLAYER_O:
     print('You have lost!')
 else:
     print('It\'s a tie.')
-
-
