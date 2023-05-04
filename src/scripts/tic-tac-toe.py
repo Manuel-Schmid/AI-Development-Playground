@@ -41,7 +41,7 @@ def print_grid(_grid):
             return 'O'
         return '_'
 
-    print(f'\n    | {cyan("A")} | {cyan("B")} | {cyan("C")} |')
+    print(f'\n    | {cyan(X_AXIS_LABELS[0])} | {cyan(X_AXIS_LABELS[1])} | {cyan(X_AXIS_LABELS[2])} |')
 
     for i in range(3):
         print(f'| {cyan(Y_AXIS_LABELS[i])} |', end='')
@@ -167,7 +167,7 @@ AI_OPPONENT = click.confirm(
     default=True
 )
 if AI_OPPONENT:
-    while AI_STRENGTH not in range(0, 10):
+    while AI_STRENGTH not in range(0, 11):
         AI_STRENGTH = int(input('How strong do you want your AI opponent to be? [0 = worst, 10 = best]: '))
 print('You\'re X while your Opponent is O')
 
@@ -193,18 +193,18 @@ while terminal(grid) is None:
         print_grid(grid)
     else:
         print('\n\nThe opponent is playing its turn: ', end='')
-        action = None
+        o_action = None
         if AI_OPPONENT:
             # Get action by running the minimax algorithm
-            action = minimax(grid)[0]
+            o_action = minimax(grid)[0]
         else:
             empty_fields = [i for i in range(len(grid)) if grid[i] == FIELD_EMPTY]
             index = empty_fields[random.randint(0, len(empty_fields) - 1)]  # random index of empty grid-field
-            action = (PLAYER_O, index)
+            o_action = (PLAYER_O, index)
 
-        print(green(get_action_coordinates_string(action)))
+        print(green(get_action_coordinates_string(o_action)))
         # Apply returned action to the state
-        grid = result(grid, action)
+        grid = result(grid, o_action)
         print_grid(grid)
 
 # print winner
