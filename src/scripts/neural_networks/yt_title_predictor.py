@@ -11,21 +11,23 @@ from keras.preprocessing.text import Tokenizer
 from keras.callbacks import EarlyStopping
 from keras.models import Sequential
 import keras.utils as ku
-
+import os
+from src.config.definitions import ROOT_DIR
 import tensorflow as tf
-
-tf.random.set_seed(2)
 from numpy.random import seed
 
+
+tf.random.set_seed(2)
 seed(1)
 
 # load all the datasets
-df1 = pd.read_csv('../../data/USvideos.csv')
+
+df1 = pd.read_csv(os.path.join(ROOT_DIR, 'data', 'USvideos.csv'))
 # df2 = pd.read_csv('../../data/CAvideos.csv')
 # df3 = pd.read_csv('../../data/GBvideos.csv')
 
 # load the datasets containing the category names
-data1 = json.load(open('../../data/US_category_id.json'))
+data1 = json.load(open(os.path.join(ROOT_DIR, 'data', 'US_category_id.json')))
 
 
 # data2 = json.load(open('CA_category_id.json'))

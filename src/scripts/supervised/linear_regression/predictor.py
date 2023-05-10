@@ -1,3 +1,4 @@
+import pickle
 import random
 
 import numpy as np
@@ -12,12 +13,14 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from xgboost import XGBClassifier
 from sklearn import metrics
+import os
+from src.config.definitions import ROOT_DIR
 
 # import warnings
 # warnings.filterwarnings('ignore')
 
 
-df = pd.read_csv('../../../data/TSLA.csv')
+df = pd.read_csv(os.path.join(ROOT_DIR, 'data', 'TSLA.csv'))
 
 pd.options.display.max_columns = None
 pd.options.display.max_rows = None
@@ -80,18 +83,7 @@ df['is_quarter_end'] = np.where(df['month'] % 3 == 0, 1, 0)  # new col
 df['open-close'] = df['Open'] - df['Close']
 df['low-high'] = df['Low'] - df['High']
 df['target'] = np.where(df['Close'].shift(-1) > df['Close'], 1, 0)
-# print(df.head(60))
 
-# plt.pie(df['target'].value_counts().values,  # is target balanced?
-#         labels=[0, 1], autopct='%1.1f%%')
-# plt.plot(df['target'])
-# plt.show()
-# plt.figure(figsize=(10, 10))
-
-
-# visualize heatmap of highly correlated features only.
-sb.heatmap(df.corr(numeric_only=True) > 0.9, annot=True, cbar=False)
-plt.show()
 
 features = df[['open-close', 'low-high', 'is_quarter_end']]
 target = df['target']
@@ -101,25 +93,53 @@ features = scaler.fit_transform(features)
 
 X_train, X_valid, Y_train, Y_valid = train_test_split(
     features, target, test_size=0.1, random_state=2022)
-print(X_train.shape, X_valid.shape)
+# print(X_train.shape, X_valid.shape)
+
+# print(df.head(60))
+
+# plt.pie(df['target'].value_counts().values,  # is target balanced?
+#         labels=[0, 1], autopct='%1.1f%%')
+# plt.plot(df['target'])
+# plt.show()
+# plt.figure(figsize=(10, 10))
+
+mode = input('Do you want to plot datapoints (P), train a new model (T) or run predictions with the saved model (R)? : ').upper()
 
 
-models = [LogisticRegression(), SVC(
-    kernel='poly', probability=True), XGBClassifier()]
+# Plotting
+if mode == 'P':
+    # visualize heatmap of highly correlated features only.
+    sb.heatmap(df.corr(numeric_only=True) > 0.9, annot=True, cbar=False)
+    plt.show()
 
-for i in range(3):
-    models[i].fit(X_train, Y_train)
 
-    print(f'{models[i]} : ')
-    print('Training Accuracy : ', metrics.roc_auc_score(
-        Y_train, models[i].predict_proba(X_train)[:, 1]))
-    print('Validation Accuracy : ', metrics.roc_auc_score(
-        Y_valid, models[i].predict_proba(X_valid)[:, 1]))
-    print()
+# Training Model
+if mode == 'T':
+    models = [LogisticRegression(), SVC(
+        kernel='poly', probability=True), XGBClassifier()]
 
-models[0].fit(X_train, Y_train)
-predictions = models[0].predict(X_valid)
-cm = confusion_matrix(Y_valid, predictions, labels=models[0].classes_)
-disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=models[0].classes_)
-disp.plot()
-plt.show()
+    for i in range(3):
+        models[i].fit(X_train, Y_train)
+
+        print(f'{models[i]} : ')
+        print('Training Accuracy : ', metrics.roc_auc_score(
+            Y_train, models[i].predict_proba(X_train)[:, 1]))
+        print('Validation Accuracy : ', metrics.roc_auc_score(
+            Y_valid, models[i].predict_proba(X_valid)[:, 1]))
+        print()
+
+    models[0].fit(X_train, Y_train)
+    with open(os.path.join(ROOT_DIR, 'models', 'stock-predictor-model.pickle'), "wb") as f:  # save trained model in pickle file
+        pickle.dump(models[0], f)
+
+
+# Using the model
+if mode == 'R':
+    pickle_in = open(os.path.join(ROOT_DIR, 'models', 'stock-predictor-model.pickle'), "rb")  # load trained model from pickle file
+    model = pickle.load(pickle_in)
+
+    predictions = model.predict(X_valid)
+    cm = confusion_matrix(Y_valid, predictions, labels=model.classes_)
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=model.classes_)
+    disp.plot()
+    plt.show()
