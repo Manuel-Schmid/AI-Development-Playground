@@ -67,6 +67,18 @@ class SnakeGame:
                 pygame.quit()
                 quit()
 
+        # 2. move
+        self._move(action)  # update head
+        self.snake.insert(0, self.head)
+
+        # 3. check if game over
+        reward = 0
+        game_over = False
+        if self.is_collision() or self.frame_iteration > 100 * len(self.snake):
+            game_over = True
+            reward = -10
+            return reward, game_over, self.score
+
 
     def has_collision(self, pt=None):
         if pt is None:
