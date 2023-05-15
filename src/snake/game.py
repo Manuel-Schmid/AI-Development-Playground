@@ -59,6 +59,15 @@ class SnakeGame:
         if self.food in self.snake:
             self.place_food()
 
+    def play_step(self, action):
+        self.frame_iteration += 1
+        # 1. collect user input
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+
     def has_collision(self, pt=None):
         if pt is None:
             pt = self.head
