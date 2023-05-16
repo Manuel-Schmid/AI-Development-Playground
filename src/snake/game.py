@@ -5,6 +5,7 @@ from collections import namedtuple
 import random
 
 pygame.init()
+font = pygame.font.SysFont('arial', 25)
 
 
 class Direction(Enum):
@@ -15,6 +16,13 @@ class Direction(Enum):
 
 
 Point = namedtuple('Point', 'x, y')
+
+# rgb colors
+WHITE = (255, 255, 255)
+RED = (200, 0, 0)
+BLUE1 = (0, 0, 255)
+BLUE2 = (0, 100, 255)
+BLACK = (0, 0, 0)
 
 BLOCK_SIZE = 20
 SPEED = 40
@@ -74,7 +82,7 @@ class SnakeGame:
         # 3. check if game over
         reward = 0
         game_over = False
-        if self.is_collision() or self.frame_iteration > 100 * len(self.snake):
+        if self.has_collision() or self.frame_iteration > 100 * len(self.snake):
             game_over = True
             reward = -10
             return reward, game_over, self.score
@@ -88,7 +96,7 @@ class SnakeGame:
             self.snake.pop()
 
         # 5. update ui and clock
-        self._update_ui()
+        self.update_gui()
         self.clock.tick(SPEED)
         # 6. return game over and score
         return reward, game_over, self.score
@@ -106,16 +114,16 @@ class SnakeGame:
         return False
 
     def update_gui(self):
-        self.display.fill((0, 0, 0))
+        self.display.fill(BLACK)
 
         for pt in self.snake:
-            pygame.draw.rect(self.display, (0, 0, 255), pygame.Rect(pt.x, pt.y, BLOCK_SIZE, BLOCK_SIZE))
-            pygame.draw.rect(self.display, (0, 100, 255), pygame.Rect(pt.x + 4, pt.y + 4, 12, 12))
+            pygame.draw.rect(self.display, BLUE1, pygame.Rect(pt.x, pt.y, BLOCK_SIZE, BLOCK_SIZE))
+            pygame.draw.rect(self.display, BLUE2, pygame.Rect(pt.x + 4, pt.y + 4, 12, 12))
 
-        pygame.draw.rect(self.display, (200, 0, 0), pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE))
+        pygame.draw.rect(self.display, RED, pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE))
 
-        # text = font.render("Score: " + str(self.score), True, (255, 255, 255))
-        # self.display.blit(text, [0, 0])
+        text = font.render("Score: " + str(self.score), True, WHITE)
+        self.display.blit(text, [0, 0])
         pygame.display.flip()
 
     def _move(self, action):
