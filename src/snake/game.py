@@ -29,33 +29,25 @@ SPEED = 40
 
 
 class SnakeGame:
-    w = 640
-    h = 480
-    display = pygame.display.set_mode((w, h))
-    pygame.display.set_caption('Snake')
-    clock = pygame.time.Clock()
-    direction = Direction.RIGHT
-
-    head = Point(w / 2, h / 2)
-    snake = [head, Point(head.x - BLOCK_SIZE, head.y), Point(head.x - (2 * BLOCK_SIZE), head.y)]
-
-    score = 0
-    food = None
-    frame_iteration = 0
-
-    def __init__(self):
+    def __init__(self, w=640, h=480):
+        self.w = w
+        self.h = h
+        # init display
+        self.display = pygame.display.set_mode((self.w, self.h))
+        pygame.display.set_caption('Snake')
+        self.clock = pygame.time.Clock()
         self.reset()
 
     def reset(self):
         # init game state
         self.direction = Direction.RIGHT
 
-        head = Point(self.w / 2, self.h / 2)
-        self.snake = [head,
-                      Point(head.x - BLOCK_SIZE, head.y),
-                      Point(head.x - (2 * BLOCK_SIZE), head.y)]
+        self.head = Point(self.w/2, self.h/2)
+        self.snake = [self.head,
+                      Point(self.head.x-BLOCK_SIZE, self.head.y),
+                      Point(self.head.x-(2*BLOCK_SIZE), self.head.y)]
 
-        score = 0
+        self.score = 0
         self.food = None
         self.place_food()
         self.frame_iteration = 0
