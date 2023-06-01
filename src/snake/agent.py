@@ -128,5 +128,4 @@ def train():
             plot(plot_scores, plot_mean_scores)  # show model progression plot
 
 
-if __name__ == '__main__':
-    train()
+train()
