@@ -16,3 +16,14 @@ def generate_dataset(n):
     return np.array(x), np.array(y)
 
 x, y = generate_dataset(200)
+
+mpl.rcParams['legend.fontsize'] = 12
+
+fig = plt.figure()
+ax = fig.add_subplot(projection ='3d')
+
+ax.scatter(x[:, 1], x[:, 2], y, label ='y', s = 5)
+ax.legend()
+ax.view_init(45, 0)
+
+plt.show()
