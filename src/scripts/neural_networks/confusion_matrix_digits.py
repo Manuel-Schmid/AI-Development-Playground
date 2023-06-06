@@ -26,4 +26,11 @@ plt.title('Confusion Matrix', fontsize=17)
 plt.show()
 
 accuracy = accuracy_score(y_test, y_pred)
-print("Accuracy   :", accuracy)
+precision_score = precision_score(y_test, y_pred)
+recall_score = recall_score(y_test, y_pred)
+f1_score = f1_score(y_test, y_pred)
+
+print("Accuracy :", accuracy)
+print("Precision score :", precision_score)
+print("Recall score :", recall_score)
+print("F1 score :", f1_score)
