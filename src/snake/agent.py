@@ -2,7 +2,7 @@ import torch
 import random
 import numpy as np
 from collections import deque
-from game import SnakeGame, Direction, Point
+from game import SnakeGame, Dir, Point
 from model import Linear_QNet, QTrainer
 from ui import plot
 
@@ -28,10 +28,10 @@ class Agent:
         point_u = Point(head.x, head.y - 20)
         point_d = Point(head.x, head.y + 20)
 
-        dir_l = game.direction == Direction.LEFT
-        dir_r = game.direction == Direction.RIGHT
-        dir_u = game.direction == Direction.UP
-        dir_d = game.direction == Direction.DOWN
+        dir_l = game.dir == Dir.LEFT
+        dir_r = game.dir == Dir.RIGHT
+        dir_u = game.dir == Dir.UP
+        dir_d = game.dir == Dir.DOWN
 
         state = [
             (dir_r and game.has_collision(point_r)) or
