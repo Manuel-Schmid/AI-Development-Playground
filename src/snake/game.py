@@ -8,7 +8,7 @@ pygame.init()
 font = pygame.font.SysFont('arial', 25)
 
 
-class Direction(Enum):
+class Dir(Enum):
     RIGHT = 1
     LEFT = 2
     UP = 3
@@ -40,7 +40,7 @@ class SnakeGame:
 
     def reset(self):
         # initial game state
-        self.direction = Direction.RIGHT
+        self.dir = Dir.RIGHT
 
         self.head = Point(self.w / 2, self.h / 2)
         self.snake = [self.head,
@@ -118,8 +118,8 @@ class SnakeGame:
 
     def _move(self, action):
 
-        clock_wise = [Direction.RIGHT, Direction.DOWN, Direction.LEFT, Direction.UP]
-        idx = clock_wise.index(self.direction)
+        clock_wise = [Dir.RIGHT, Dir.DOWN, Dir.LEFT, Dir.UP]
+        idx = clock_wise.index(self.dir)
 
         if np.array_equal(action, [1, 0, 0]):
             new_dir = clock_wise[idx]  # no change
@@ -130,17 +130,17 @@ class SnakeGame:
             next_idx = (idx - 1) % 4
             new_dir = clock_wise[next_idx]  # left turn r -> u -> l -> d
 
-        self.direction = new_dir
+        self.dir = new_dir
 
         x = self.head.x
         y = self.head.y
-        if self.direction == Direction.RIGHT:
+        if self.dir == Dir.RIGHT:
             x += BLOCK_SIZE
-        elif self.direction == Direction.LEFT:
+        elif self.dir == Dir.LEFT:
             x -= BLOCK_SIZE
-        elif self.direction == Direction.DOWN:
+        elif self.dir == Dir.DOWN:
             y += BLOCK_SIZE
-        elif self.direction == Direction.UP:
+        elif self.dir == Dir.UP:
             y -= BLOCK_SIZE
 
         self.head = Point(x, y)
