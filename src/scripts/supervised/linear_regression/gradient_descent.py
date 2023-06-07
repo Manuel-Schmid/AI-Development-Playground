@@ -20,3 +20,4 @@ ax[0].set_ylabel('Y')
 ax[1].set_xlabel('X2')
 ax[1].set_ylabel('Y')
 plt.show()
+
