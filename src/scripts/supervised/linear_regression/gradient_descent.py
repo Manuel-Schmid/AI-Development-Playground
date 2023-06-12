@@ -37,3 +37,17 @@ input_size = x.shape[1]
 output_size = 1
 
 model = LinearRegression(input_size, output_size)
+
+
+weight = torch.randn(1, input_size)
+bias = torch.rand(1)
+
+weight_param = nn.Parameter(weight)
+bias_param = nn.Parameter(bias)
+
+model.linear.weight = weight_param
+model.linear.bias = bias_param
+
+weight, bias = model.parameters()
+print('Weight :', weight)
+print('bias :', bias)
