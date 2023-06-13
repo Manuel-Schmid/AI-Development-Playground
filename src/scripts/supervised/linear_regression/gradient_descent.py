@@ -83,3 +83,26 @@ for epoch in range(num_epochs):
     model.linear.weight = nn.Parameter(w)
     model.linear.bias = nn.Parameter(b)
 
+    if (epoch + 1) % 100 == 0:
+        ax1.plot(w.detach().numpy(), loss.item(), 'r*-')
+        ax2.plot(b.detach().numpy(), loss.item(), 'g+-')
+        print('Epoch [{}/{}], weight:{}, bias:{} Loss: {:.4f}'.format(
+            epoch + 1, num_epochs,
+            w.detach().numpy(),
+            b.detach().numpy(),
+            loss.item()))
+
+ax1.set_xlabel('weight')
+ax2.set_xlabel('bias')
+ax1.set_ylabel('Loss')
+ax2.set_ylabel('Loss')
+plt.show()
+
+w = model.linear.weight
+b = model.linear.bias
+
+print('weight(W) = {} \n bias(b) = {}'.format(
+    w.abs(),
+    b.abs()))
+
+pred = x @ w.T + b
