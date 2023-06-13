@@ -51,3 +51,35 @@ model.linear.bias = bias_param
 weight, bias = model.parameters()
 print('Weight :', weight)
 print('bias :', bias)
+
+y_p = model(x)
+
+
+def mean_squared_error(prediction, actual):
+    error = (actual - prediction) ** 2
+    return error.mean()
+
+
+loss = mean_squared_error(y_p, y)
+
+num_epochs = 1000
+learning_rate = 0.01
+
+fig1, (ax1, ax2) = plt.subplots(1, 2, sharey=True)
+
+for epoch in range(num_epochs):
+    y_p = model(x)
+    loss = mean_squared_error(y_p, y)
+
+    loss.backward()
+
+    learning_rate = 0.001
+    w = model.linear.weight
+    b = model.linear.bias
+
+    w = w - learning_rate * w.grad
+    b = b - learning_rate * b.grad
+
+    model.linear.weight = nn.Parameter(w)
+    model.linear.bias = nn.Parameter(b)
+
