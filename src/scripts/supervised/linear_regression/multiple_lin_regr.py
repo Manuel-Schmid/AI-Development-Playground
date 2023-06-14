@@ -15,12 +15,14 @@ def generate_dataset(n):
         y.append(random_x1 * x1 + random_x2 * x2 + 1)
     return np.array(x), np.array(y)
 
+
 x, y = generate_dataset(200)
 
 mpl.rcParams['legend.fontsize'] = 12
 
 fig = plt.figure()
 ax = fig.add_subplot(projection='3d')
+
 
 ax.scatter(x[:, 1], x[:, 2], y, label='y', s=5)
 ax.legend()
