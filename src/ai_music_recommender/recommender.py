@@ -40,11 +40,11 @@ class ImplicitRecommender:
     artist_retriever = ArtistRetriever()
     artist_retriever.load_artists(Path("../lastfmdata/artists.dat"))
 
-    implict_model = implicit.als.AlternatingLeastSquares(
+    implicit_model = implicit.als.AlternatingLeastSquares(
         factors=50, iterations=10, regularization=0.01
     )
 
-    recommender = ImplicitRecommender(artist_retriever, implict_model)
+    recommender = ImplicitRecommender(artist_retriever, implicit_model)
     recommender.fit(user_artists)
     artists, scores = recommender.recommend(2, user_artists, n=5)
 
