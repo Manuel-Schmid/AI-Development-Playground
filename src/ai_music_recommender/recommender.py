@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import Tuple, List
 import implicit
 import scipy
-from musiccollaborativefiltering.data import load_user_artists, ArtistRetriever
+from data import load_user_artists, ArtistRetriever
 
 
 class ImplicitRecommender:
