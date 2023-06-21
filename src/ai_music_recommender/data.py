@@ -36,7 +36,8 @@ class ArtistRetriever:
     # )
     # print(user_artists_matrix)
 
-    artist_retriever = ArtistRetriever()
-    artist_retriever.load_artists(Path("../lastfmdata/artists.dat"))
-    artist = artist_retriever.get_artist_name_from_id(1)
-    print(artist)
+
+artist_retriever = ArtistRetriever()
+artist_retriever.load_artists(Path("../lastfmdata/artists.dat"))
+artist = artist_retriever.get_artist_name_from_id(1)
+print(artist)
